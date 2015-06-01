@@ -8,6 +8,6 @@ PoC. Wersja koncepcyjna.
 
 ## Projekty
 
-### SkypeMessagesExporter
+### CSharp-SkypeMessagesExporter
 
-### SimpleWebServiceApp
+### Python-SkypeMessagesExporter

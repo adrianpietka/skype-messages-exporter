@@ -17,6 +17,43 @@ skype_database_temp = "skype.db"
 
 wait_time = 30
 
+
+class Message:
+    data = {
+        "id": "",
+        "author": "",
+        "timestamp": "",
+        "text": "",
+        "conversationId": "",
+        "conversationName": ""
+    }
+
+    def __init__(self, id, author, timestamp, text, conversationId, conversationName):
+        data["id"] = id
+        data["author"] = author
+        data["timestamp"] = timestamp
+        data["text"] = text
+        data["conversationId"] = conversationId
+        data["conversationName"] = conversationName
+
+    def id(self):
+        return data["id"]
+
+    def author(self):
+        return data["author"]
+
+    def timestamp(self):
+        return data["timestamp"]
+
+    def text(self):
+        return data["text"]
+
+    def conversationId(self):
+        return data["conversationId"]
+
+    def conversationName(self):
+        return data["conversationName"]
+
 class Settings:
     settings_file = ""
 
