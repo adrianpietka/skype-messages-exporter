@@ -13,7 +13,7 @@ Example of config.json file:
     "api_url": "http://localhost:5757",
     "messages_limit": 50,
     "cycle_time": 5,
-    "skype_database_orginal": "C:\\Users\{system.username}\AppData\Roaming\Skype\{skype.login}\main.db",
+    "skype_database_orginal": "C:\\Users\\{system.username}\\AppData\\Roaming\\Skype\\{skype.login}\\main.db",
     "channels": {
         "1438": 1
     }

@@ -10,7 +10,7 @@ settings_file = "config.json"
 
 api_url = "http://localhost:5757"
 
-skype_database_original = "C:\\Users\Adrian\AppData\Roaming\Skype\pietka.adrian\main.db"
+skype_database_original = "C:\\Users\\Adrian\\AppData\\Roaming\\Skype\\pietka.adrian\\main.db"
 skype_database_temp = "skype.db"
 
 cycle_time = 5
