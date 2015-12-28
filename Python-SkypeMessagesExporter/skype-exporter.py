@@ -10,49 +10,13 @@ import sqlite3
 settings_file = "skype-exporter.json"
 
 api_key = ""
-api_url = "http://localhost/update/{}".format(api_key)
+api_url = "http://localhost:8111/" #"http://localhost/update/{}".format(api_key)
 
 skype_database_original = "C:\\Users\Adrian\AppData\Roaming\Skype\pietka.adrian\main.db"
 skype_database_temp = "skype.db"
 
-wait_time = 30
-
-
-class Message:
-    data = {
-        "id": "",
-        "author": "",
-        "timestamp": "",
-        "text": "",
-        "conversationId": "",
-        "conversationName": ""
-    }
-
-    def __init__(self, id, author, timestamp, text, conversationId, conversationName):
-        data["id"] = id
-        data["author"] = author
-        data["timestamp"] = timestamp
-        data["text"] = text
-        data["conversationId"] = conversationId
-        data["conversationName"] = conversationName
-
-    def id(self):
-        return data["id"]
-
-    def author(self):
-        return data["author"]
-
-    def timestamp(self):
-        return data["timestamp"]
-
-    def text(self):
-        return data["text"]
-
-    def conversationId(self):
-        return data["conversationId"]
-
-    def conversationName(self):
-        return data["conversationName"]
+cycle_time = 5
+messages_limit = 30
 
 class Settings:
     settings_file = ""
@@ -114,12 +78,17 @@ class SkypeDatabase:
             "FROM Messages m JOIN Conversations c ON (c.id = m.convo_id) "
             "WHERE 1 != 1 {}"
             "ORDER BY m.id ASC "
-            "LIMIT 30".format(channelsQuery)
+            "LIMIT {}".format(channelsQuery, messages_limit)
         )
 
         for row in result.fetchall():
-            #messages.append(Message(row[0], row[1], row[2], row[3], row[4], row[5]))
-            messages.append({"Id": row[0], "Author": row[1], "Date": row[2], "Content": row[3] if row[3] else "", "ConversationId": row[4], "ConversationName": row[5]})
+            messages.append({
+                "Id": row[0],
+                "Author": row[1],
+                "Date": row[2],
+                "Content": row[3] if row[3] else "",
+                "ConversationId": row[4],
+                "ConversationName": row[5]})
 
         connection.close()
 
@@ -143,7 +112,7 @@ class Listener:
             else:
                 print(">> can't export messages")
 
-            time.sleep(wait_time)
+            time.sleep(cycle_time)
             print("")
 
 def signal_handler(signal, frame):
