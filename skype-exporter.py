@@ -5,32 +5,27 @@ import signal
 import requests
 import shutil
 import sqlite3
+import argparse
+import os.path
 
-settings_file = "config.json"
-
-api_url = "http://localhost:5757"
-
-skype_database_original = "C:\\Users\\Adrian\\AppData\\Roaming\\Skype\\pietka.adrian\\main.db"
-skype_database_temp = "skype.db"
-
-cycle_time = 5
-messages_limit = 30
+if __name__ != "__main__":
+    raise Exception("Can't execute script as a module")
 
 class Settings:
-    settings_file = ""
+    config_file = ""
 
     channels = []
 
     def __init__(self, file_path):
-        self.settings_file = file_path
+        self.config_file = file_path
         self.load()
 
     def load(self):
-        data = json.load(open(self.settings_file, "r"))
+        data = json.load(open(self.config_file, "r"))
         self.channels = data["channels"]
 
     def save(self):
-        json.dump({"channels": self.get_channels()}, open(self.settings_file, "w"))
+        json.dump({"channels": self.get_channels()}, open(self.config_file, "w"))
 
     def get_channels(self):
         return self.channels
@@ -117,12 +112,27 @@ def signal_handler(signal, frame):
     print("\n> bye ;-(")
     sys.exit(0)
 
-if __name__ == "__main__":
+try:
     signal.signal(signal.SIGINT, signal_handler)
 
-    settings = Settings(settings_file)
+    parser = argparse.ArgumentParser(description="Export messages from Skype channels to a remote web service.")
+    parser.add_argument("config_file", help="json config file")
+    args = parser.parse_args()
+
+    if (not os.path.isfile(args.config_file)):
+        raise Exception("> Can't load config file: {}".format(args.config_file))
+
+    cycle_time = 5
+    messages_limit = 30
+    api_url = "http://localhost:5757"
+    skype_database_temp = "skype.db"
+    skype_database_original = "C:\\Users\\Adrian\\AppData\\Roaming\\Skype\\pietka.adrian\\main.db"
+
+    settings = Settings(args.config_file)
     skype_database = Skype_Database()
     message_exporter = Message_Exporter()
     listener = Listener()
 
     listener.listen(settings, skype_database, message_exporter)
+except Exception as e:
+    print(str(e))
