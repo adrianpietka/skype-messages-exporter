@@ -30,21 +30,21 @@ class Settings:
         self.channels = data["channels"]
 
     def save(self):
-        json.dump({"channels": self.getChannels()}, open(self.settings_file, "w"))
+        json.dump({"channels": self.get_channels()}, open(self.settings_file, "w"))
 
-    def getChannels(self):
+    def get_channels(self):
         return self.channels
 
-    def setUpdateLastMessageIdForChannel(self, messages):
+    def set_last_message_for_channel(self, messages):
         for message in messages:
-            self.channels[str(message["ConversationId"])] = message["Id"]
+            self.channels[str(message["conversation"]["id"])] = message["id"]
 
         self.save()
 
-class MessageExporter:
+class Message_Exporter:
     success_status = 200
 
-    def exportAsJson(self, messages):
+    def export_as_json(self, messages):
         try:
             payload = json.dumps(messages)
             headers = {"content-type": "application/json"}
@@ -53,7 +53,7 @@ class MessageExporter:
         except:
             return False
 
-class SkypeDatabase:
+class Skype_Database:
     def refresh(self):
         try:
             shutil.copyfile(skype_database_original, skype_database_temp)
@@ -61,13 +61,13 @@ class SkypeDatabase:
         except:
             return False
 
-    def getNewMessages(self, channels):
+    def get_new_messages(self, channels):
         messages = []
 
-        channelsQuery = ""
-        channelsId = list(channels.keys())
-        for channelId in channelsId:
-            channelsQuery = channelsQuery + "OR (m.convo_id = " + str(channelId) +  " AND m.id > " + str(channels[channelId]) + ")";
+        channels_query = ""
+        channels_id = list(channels.keys())
+        for channel_id in channels_id:
+            channels_query += " OR (m.convo_id = " + str(channel_id) +  " AND m.id > " + str(channels[channel_id]) + ")";
         
         connection = sqlite3.connect(skype_database_temp)
         result = connection.cursor()
@@ -76,37 +76,37 @@ class SkypeDatabase:
             "FROM Messages m JOIN Conversations c ON (c.id = m.convo_id) "
             "WHERE 1 != 1 {}"
             "ORDER BY m.id ASC "
-            "LIMIT {}".format(channelsQuery, messages_limit)
+            "LIMIT {}".format(channels_query, messages_limit)
         )
 
         for row in result.fetchall():
             messages.append({
-                "Id": row[0],
-                "Author": row[1],
-                "Date": row[2],
-                "Content": row[3] if row[3] else "",
-                "ConversationId": row[4],
-                "ConversationName": row[5]})
+                "id": row[0],
+                "author": row[1],
+                "date": row[2],
+                "content": row[3] if row[3] else "",
+                "conversation": {"id": row[4], "name": row[5]}
+                })
 
         connection.close()
 
         return messages
 
 class Listener:
-    def listen(self, settings, skypeDatabase, messageExporter):
+    def listen(self, settings, skype_database, message_exporter):
         while(True):            
             print("> listen at {}".format(time.strftime("%H:%M:%S")))
 
-            if (not skypeDatabase.refresh()):
+            if (not skype_database.refresh()):
                 print(">> can't create copy of skype database")
                 continue
 
-            channels = settings.getChannels()
-            messages = skypeDatabase.getNewMessages(channels)
+            channels = settings.get_channels()
+            messages = skype_database.get_new_messages(channels)
             
-            if (messageExporter.exportAsJson(messages)):
+            if (message_exporter.export_as_json(messages)):
                 print(">> exported {} messages".format(len(messages)))
-                settings.setUpdateLastMessageIdForChannel(messages)
+                settings.set_last_message_for_channel(messages)
             else:
                 print(">> can't export messages")
 
@@ -121,8 +121,8 @@ if __name__ == "__main__":
     signal.signal(signal.SIGINT, signal_handler)
 
     settings = Settings(settings_file)
-    skypeDatabase = SkypeDatabase()
-    messageExporter = MessageExporter()
+    skype_database = Skype_Database()
+    message_exporter = Message_Exporter()
     listener = Listener()
 
-    listener.listen(settings, skypeDatabase, messageExporter)
+    listener.listen(settings, skype_database, message_exporter)

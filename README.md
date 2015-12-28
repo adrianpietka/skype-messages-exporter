@@ -48,28 +48,34 @@ Script send data to webservice as payloaded JSON.
 ```json
 [
   {
-    "Author": "user.name.1",
-    "Id": 17196,
-    "Content": "<a href=\"https://www.facebook.com/ODN/videos/904190422960927/\">https://www.facebook.com/ODN/videos/904190422960927/</a>\r\n<ss type=\"surprised\">:O</ss>",
-    "ConversationName": "My SPAM Chat",
-    "Date": 1431593629,
-    "ConversationId": 1438
+    "author": "user.name.1",
+    "id": 17196,
+    "content": "<a href=\"https://www.facebook.com/ODN/videos/904190422960927/\">https://www.facebook.com/ODN/videos/904190422960927/</a>\r\n<ss type=\"surprised\">:O</ss>",
+    "conversation": {
+        "id": "1438",
+        "name": "My SPAM Chat"
+    },
+    "date": 1431593629
   },
   {
-    "Author": "user.name.2",
-    "Id": 17200,
-    "Content": "<a href=\"http://devopsreactions.tumblr.com/post/118933329057/bash-ls-command-not-found\">http://devopsreactions.tumblr.com/post/118933329057/bash-ls-command-not-found</a>",
-    "ConversationName": "My SPAM Chat",
-    "Date": 1431594202,
-    "ConversationId": 1438
+    "author": "user.name.2",
+    "id": 17200,
+    "content": "<a href=\"http://devopsreactions.tumblr.com/post/118933329057/bash-ls-command-not-found\">http://devopsreactions.tumblr.com/post/118933329057/bash-ls-command-not-found</a>",
+    "conversation": {
+        "id": "1438",
+        "name": "My SPAM Chat"
+    },
+    "date": 1431594202
   },
   {
-    "Author": "user.name.3",
-    "Id": 17207,
-    "Content": "Haha, very nice!",
-    "ConversationName": "My SPAM Chat",
-    "Date": 1431594386,
-    "ConversationId": 1438
+    "author": "user.name.3",
+    "id": 17207,
+    "content": "Haha, very nice!",
+    "conversation": {
+        "id": "1438",
+        "name": "My SPAM Chat"
+    },
+    "date": 1431594386
   }
 ]
 ```
