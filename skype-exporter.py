@@ -4,13 +4,11 @@ import time
 import signal
 import requests
 import shutil
-import pprint
 import sqlite3
 
-settings_file = "skype-exporter.json"
+settings_file = "config.json"
 
-api_key = ""
-api_url = "http://localhost:8111/" #"http://localhost/update/{}".format(api_key)
+api_url = "http://localhost:5757"
 
 skype_database_original = "C:\\Users\Adrian\AppData\Roaming\Skype\pietka.adrian\main.db"
 skype_database_temp = "skype.db"
