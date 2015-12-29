@@ -1,1 +1,7 @@
-{"channels": {"1438": 17287}}
+{
+    "cycle_time": 5,
+    "channels": {"1438": 17287},
+    "api_url": "http://localhost:5757",
+    "messages_limit": 50,
+    "skype_database_original": "C:\\Users\\{system.username}\\AppData\\Roaming\\Skype\\{skype.userlogin}\\main.db"
+ }

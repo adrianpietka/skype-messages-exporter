@@ -13,7 +13,7 @@ Example of config.json file:
     "api_url": "http://localhost:5757",
     "messages_limit": 50,
     "cycle_time": 5,
-    "skype_database_orginal": "C:\\Users\\{system.username}\\AppData\\Roaming\\Skype\\{skype.login}\\main.db",
+    "skype_database_original": "C:\\Users\\{system.username}\\AppData\\Roaming\\Skype\\{skype.login}\\main.db",
     "channels": {
         "1438": 1
     }
@@ -36,7 +36,7 @@ Then script send only new messages from chats defined in "channels" object.
 ## Running
 
 ```bash
-$: python skype-exporter.py config.json
+$: python -u skype-exporter.py config.json
 ```
 
 ## Web service
