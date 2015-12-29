@@ -126,7 +126,7 @@ try:
     signal.signal(signal.SIGINT, signal_handler)
 
     settings = Settings(args.config_file)
-    skype_database = Skype_Database(settings.skype_database_original, "skype.db")
+    skype_database = Skype_Database(settings.skype_database_original, "temp/skype.db")
     message_exporter = Message_Exporter(settings.api_url)
     listener = Listener()
 

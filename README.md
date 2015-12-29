@@ -86,7 +86,7 @@ Script send data to webservice as payloaded JSON.
 
 ```php
 $payload = file_get_contents('php://input');
-file_put_contents('payload-' . time() . '.json', $payload);
+file_put_contents('temp/payload-' . time() . '.json', $payload);
 ```
 
 ```bash
