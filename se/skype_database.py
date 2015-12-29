@@ -38,8 +38,32 @@ class Skype_Database:
                 "date": row[2],
                 "content": row[3] if row[3] else "",
                 "conversation": {"id": row[4], "name": row[5]}
-                })
+            })
 
         connection.close()
 
         return messages
+        
+    def get_channels(self, limit):
+        channels = []
+ 
+        connection = sqlite3.connect(self.skype_database_temp)
+        result = connection.cursor()
+        result.execute(
+            "SELECT id, displayname, last_activity_timestamp "
+            "FROM Conversations "
+            "WHERE last_activity_timestamp IS NOT NULL "
+            "ORDER BY last_activity_timestamp DESC "
+            "LIMIT {}".format(limit)
+        )
+
+        for row in result.fetchall():
+            channels.append({
+                "id": row[0],
+                "display_name": format(row[1]),
+                "last_activity": row[2]
+            })
+
+        connection.close()
+
+        return channels

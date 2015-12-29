@@ -33,6 +33,12 @@ Example of config.json file:
 
 Then script send only new messages from chats defined in "channels" object.
 
+### How can I get a channel ID?
+
+```bash
+$: python -u skype-channels.py - l 100 config.json
+```
+
 ## Running
 
 ```bash
