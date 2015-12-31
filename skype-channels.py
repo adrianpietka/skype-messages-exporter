@@ -13,14 +13,7 @@ try:
     settings = Settings(args.config_file)
     skype_database = Skype_Database(settings.skype_database_original, "temp/skype.db")
 
-    skype_database.refresh()
-    channels = skype_database.get_channels(args.limit)
-    
-    print("{:^10}|{:^15}| {}".format("id", "last activity", "name"))
-    print("{:-<10}+{:-<15}+{:-<40}".format("-", "-", "-"))
-
-    for channel in channels:
-        print("{id:^10}|{last_activity:^15}| {display_name:.40}".format(**channel))
-
+    display_channels = Display_Channels()
+    display_channels.execute(skype_database, args.limit)
 except Exception as e:
     print(str(e))

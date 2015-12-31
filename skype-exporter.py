@@ -20,8 +20,8 @@ try:
     settings = Settings(args.config_file)
     skype_database = Skype_Database(settings.skype_database_original, "temp/skype.db")
     api = Api(settings.api_url)
+    
     export_messages = Export_Messages()
-
     export_messages.execute(settings, skype_database, api)
 except Exception as e:
     print(str(e))

@@ -1,5 +1,6 @@
 import shutil
 import sqlite3
+from datetime import date
 
 class Skype_Database:
     def __init__(self, original, temp):
@@ -61,7 +62,7 @@ class Skype_Database:
             channels.append({
                 "id": row[0],
                 "display_name": format(row[1]),
-                "last_activity": row[2]
+                "last_activity": str(date.fromtimestamp(row[2]))
             })
 
         connection.close()
